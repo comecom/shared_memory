@@ -1,4 +1,5 @@
 #include <stdio.h>      // printf()
+#include <stdlib.h>
 #include <unistd.h>     // sleep()
 #include <sys/ipc.h>
 #include <sys/shm.h>
@@ -6,17 +7,18 @@
 #define  KEY_NUM     9527
 #define  MEM_SIZE    1024
 
-/*typedef struct{
-	int count;
+typedef struct{
+	int i;
 	char c;
-}memdata;*/
+	float f;
+	double d;
+}memdata;
 
 int main( void)
 {
    int   shm_id;
    void *shm_addr;
-   int   count;
-   //memdata m;
+   memdata m;
 
    if ( -1 == ( shm_id = shmget( (key_t)KEY_NUM, MEM_SIZE, IPC_CREAT|0666)))
    {
@@ -30,14 +32,16 @@ int main( void)
       return -1;
    }
 
-   //m.count=0;
-   //m.c='a';
+   m.i = 10;
+   m.c = 'a';
+   m.f = 3.14;
+   m.d = 3.141592;
 
-   count = 0;
+   //count = 0;
 
    while( 1 )
    {
-      sprintf( (char *)shm_addr, "%d", count++);       // 공유 메모리에 카운터 출력
+      sprintf( (char *)shm_addr, "%lf", (m.d));       // 공유 메모리에 카운터 출력
       sleep( 1);
    }
    return 0;

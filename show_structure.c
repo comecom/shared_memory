@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>     // sleep()
 #include <sys/ipc.h>
 #include <sys/shm.h>
@@ -31,6 +32,8 @@ int main( void)
       }
 
       printf("received : %s\n", (char *)shm_addr);
+	  printf("doublePI : %lf\n", atof((char*)shm_addr));
+      //printf("received : %d\n", *(int *)shm_addr);
 
       if ( -1 == shmdt( shm_addr))
       {
