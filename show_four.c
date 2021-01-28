@@ -30,11 +30,18 @@ int main( void)
       {
          printf( "공유 메모리 첨부 성공\n");
       }
-
+	  void *tmp = shm_addr;
       printf("received : %s\n", (char *)shm_addr);
 	  printf("doublePI : %lf\n", atof((char*)shm_addr));
+	  shm_addr += sizeof(double);
+	  printf("float PI : %f\n", atof((char*)shm_addr));
+	  shm_addr += sizeof(float);
+	  printf("char c : %c\n", ((char*)shm_addr)[0]);
+	  shm_addr += sizeof(char);
+	  printf("integer i : %d\n", atoi((char*)shm_addr));
       //printf("received : %d\n", *(int *)shm_addr);
 
+	  shm_addr = tmp;
       if ( -1 == shmdt( shm_addr))
       {
          printf( "공유 메모리 분리 실패\n");

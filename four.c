@@ -41,7 +41,21 @@ int main( void)
 
    while( 1 )
    {
-      sprintf( (char *)shm_addr, "%lf", (m.d));       // 공유 메모리에 카운터 출력
+	  void *tmp = shm_addr;
+
+      sprintf( (char *)shm_addr, "%lf", m.d);
+	  shm_addr += sizeof(double);
+
+	  sprintf( (char *)shm_addr, "%f", m.f);
+	  shm_addr += sizeof(float);
+
+	  sprintf( (char*)shm_addr, "%c", m.c);
+	  shm_addr += sizeof(char);
+
+	  sprintf( (char*)shm_addr, "%d", m.i);
+	  
+	  shm_addr = tmp;
+
       sleep( 1);
    }
    return 0;
